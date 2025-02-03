@@ -57,3 +57,33 @@ export async function registerUserController(req, res) {
     }
 
 }
+export async function verifyEmailController(req, res) {
+    try {
+        const { code } = req.body
+        const user = await UserModel.findOne({
+            _id: code
+        })
+        if (!user) {
+            return res.json({
+                message: "user is not verified",
+                error: true,
+                success: false
+            })
+        }
+        const updateUser = await UserModel.updateOne({
+            _id: code
+        }, { verify_email: true })
+        return res.json({
+            message: "verified successfully",
+            error: false,
+            success: true
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: error.message || error,
+            success: false
+        })
+    }
+}
