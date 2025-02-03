@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 
 // Create transporter with SMTP settings
@@ -20,8 +21,8 @@ const sendEmail = async ({ sendTo, subject, html }) => {
         const info = await transporter.sendMail({
             from: `"Blinkit-clone"${process.env.EMAIL_USER}`, // Sender address
             to: sendTo, // Receiver(s)
-            subject: subject, // Email subject
-            html: html, // Email body (HTML format)
+            subject: subject,
+            html: html
         });
 
         console.log(`Email sent: ${info.messageId}`);
