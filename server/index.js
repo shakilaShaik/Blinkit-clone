@@ -4,7 +4,7 @@ import helmet from "helmet"
 import morgan from "morgan"
 import cookieParser from "cookie-parser"
 import connectDB from "./config/connectDB.js"
-import userRouter from "./route/user.route.js"
+import userRouter from "../route/user.route.js"
 
 const app = express()
 app.use(cors({
