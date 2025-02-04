@@ -126,11 +126,7 @@ export async function loginController(req, res) {
                 success: false
             });
         }
-        return res.json({
-            message: "Login successful",
-            error: false,
-            success: true
-        });
+
     } catch (error) {
         return res.json({
             message: error.message || error,
