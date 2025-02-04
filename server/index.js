@@ -11,6 +11,14 @@ app.use(cors({
     credentials: true
 
 }))
+
+app.get("/api/check/:id", (req, res) => {
+    res.status(200).json({
+        message: "hello",
+        data: req.params.id
+    })
+})
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan())

@@ -4,11 +4,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create transporter with SMTP settings
+// Create transporter with Gmail SMTP settings
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: process.env.EMAIL_PORT == 465, // Use `true` for port 465, otherwise `false`
+    service: 'gmail', // Use Gmail service directly instead of custom host/port
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -17,10 +15,19 @@ const transporter = nodemailer.createTransport({
 
 // Function to send an email
 const sendEmail = async ({ sendTo, subject, html }) => {
+    console.log('Email configuration:', {
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        user: process.env.EMAIL_USER,
+        // Don't log the actual password
+        hasPassword: !!process.env.EMAIL_PASS
+    });
+
+    console.log(`Sending email to: ${sendTo}, Subject: ${subject}`);
     try {
         const info = await transporter.sendMail({
-            from: `"Blinkit-clone"${process.env.EMAIL_USER}`, // Sender address
-            to: sendTo, // Receiver(s)
+            from: `"Blinkit-clone" ${process.env.EMAIL_USER}`,
+            to: sendTo,
             subject: subject,
             html: html
         });

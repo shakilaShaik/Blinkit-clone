@@ -32,7 +32,10 @@ export async function registerUserController(req, res) {
         const newUser = new UserModel(payload);
         const save = await newUser.save();
         const verifyEmailUrl = `${process.env.
-            FRONTED_URL}/verify-email?code=${save?._id}`
+            FRONTEND_URL}/verify-email?code=${save?._id}`
+
+
+
 
         const verifyEmail = await sendEmail({
             sendTo: email,
@@ -57,33 +60,80 @@ export async function registerUserController(req, res) {
     }
 
 }
+
 export async function verifyEmailController(req, res) {
     try {
-        const { code } = req.body
+        const { code } = req.body;
+        if (!code) {
+            return res.status(400).json({
+                message: "Verification code is required",
+                error: true,
+                success: false
+            });
+        }
         const user = await UserModel.findOne({
             _id: code
-        })
+        });
         if (!user) {
             return res.json({
                 message: "user is not verified",
                 error: true,
                 success: false
-            })
+            });
         }
         const updateUser = await UserModel.updateOne({
             _id: code
-        }, { verify_email: true })
+        }, { verify_email: true });
         return res.json({
             message: "verified successfully",
             error: false,
             success: true
-        })
-    }
-    catch (error) {
+        });
+    } catch (error) {
+        console.error("Error in verifyEmailController:", error);
         return res.status(500).json({
             error: true,
             message: error.message || error,
             success: false
+        });
+    }
+}
+//  {Login controller}
+export async function loginController(req, res) {
+    try {
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email });
+
+        if (!email) {
+            return res.json({
+                "message": "user not found",
+                error: true,
+                success: false
+            })
+        }
+        if (user.status !== "active") {
+            return res.json({
+                "message": "user is not active",
+                error: true,
+                success: false
+            })
+        }
+        const checkPassword = await bcrypt.compare(password, user.password);
+        if (!checkPassword) {
+            return res.status(400).json({
+                message: "incorrect password",
+                error: true,
+                success: false
+            });
+        }
+        return res.json({
+            message: "Login successful",
+            error: false,
+            success: true
+        });
+    } catch (error) {
+        return res.json({
+            message: error.message || error,
         })
     }
 }
