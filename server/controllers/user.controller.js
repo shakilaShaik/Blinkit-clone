@@ -104,7 +104,15 @@ export async function verifyEmailController(req, res) {
 export async function loginController(req, res) {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.json({
+                message: "fill all the required fields",
+                error: true,
+                success: false
+            })
+        }
         const user = await UserModel.findOne({ email });
+
 
         if (!email) {
             return res.json({
