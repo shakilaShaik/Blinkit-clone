@@ -1,6 +1,8 @@
 import UserModel from "../models/user.model.js";
 import sendEmail from "../config/send.email.js";
 import bcrypt from "bcryptjs";
+import generatedRefreshToken from "../utils/generateRefreshToken.js";
+import generatedAccessToken from '../utils/generatedAccessToken.js'
 
 import verifyEmailTemplate from "../utils/verifyEmaillTemplate.js";
 export async function registerUserController(req, res) {
@@ -126,10 +128,33 @@ export async function loginController(req, res) {
                 success: false
             });
         }
-
+        const accessToken = await generatedAccessToken(user._id)
+        const refreshToken = await generatedRefreshToken(user.id)
+        const cookiesOption = {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
+        }
+        res.cookie("accessToken", accessToken, cookiesOption)
+        res.cookie('refreshToken', accessToken, cookiesOption)
+        return res.json({
+            message: "login successfully",
+            error: false,
+            success: true,
+            data: {
+                accessToken,
+                refreshToken
+            }
+        })
     } catch (error) {
         return res.json({
             message: error.message || error,
         })
     }
+}
+// logout controller
+export async function logoutController(req, res) {
+
+
+
 }
