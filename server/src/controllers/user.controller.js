@@ -162,7 +162,23 @@ export async function loginController(req, res) {
 }
 // logout controller
 export async function logoutController(req, res) {
+    try {
+        res.clearCookie("accessToken")
+        res.clearCookie("refreshToken")
+        return res.json({
+            message: "logout successfully",
+            error: false,
+            success: true
+        })
 
+    }
+    catch (error) {
+        return res.json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
 
 
 }
