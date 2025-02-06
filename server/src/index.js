@@ -12,6 +12,7 @@ app.use(cors({
 
 }))
 
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan())
@@ -21,7 +22,7 @@ app.use(helmet({
 app.get('/', (req, res) => {
     res.send("Hello world")
 })
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 7000
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("server is running on port", PORT)
