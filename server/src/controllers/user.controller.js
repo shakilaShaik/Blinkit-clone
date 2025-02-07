@@ -1,10 +1,11 @@
 import UserModel from "../models/user.model.js";
 import sendEmail from "../config/send.email.js";
-import bcrypt from "bcryptjs";
+import bcryptjs from "bcryptjs";
 import generatedRefreshToken from "../utils/generateRefreshToken.js";
 import generatedAccessToken from '../utils/generatedAccessToken.js'
-
-import verifyEmailTemplate from "../utils/verifyEmaillTemplate.js";
+import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
+import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
+// import upload from "../middleware/multer.js";
 export async function registerUserController(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -101,52 +102,65 @@ export async function verifyEmailController(req, res) {
     }
 }
 //  {Login controller}
-export async function loginController(req, res) {
+//login controller
+export async function loginController(request, response) {
     try {
-        const { email, password } = req.body;
+        const { email, password } = request.body
+
+
         if (!email || !password) {
-            return res.json({
-                message: "fill all the required fields",
+            return response.status(400).json({
+                message: "provide email, password",
                 error: true,
                 success: false
             })
         }
-        const user = await UserModel.findOne({ email });
 
+        const user = await UserModel.findOne({ email })
 
-        if (!email) {
-            return res.json({
-                "message": "user not found",
+        if (!user) {
+            return response.status(400).json({
+                message: "User not register",
                 error: true,
                 success: false
             })
         }
-        if (user.status !== "active") {
-            return res.json({
-                "message": "user is not active",
-                error: true,
-                success: false
-            })
-        }
-        const checkPassword = await bcrypt.compare(password, user.password);
+
+        // if (user.status !== "Active") {
+        //     return response.status(400).json({
+        //         message: "Contact to Admin",
+        //         error: true,
+        //         success: false
+        //     })
+        // }
+
+        const checkPassword = await bcryptjs.compare(password, user.password)
+
         if (!checkPassword) {
-            return res.status(400).json({
-                message: "incorrect password",
+            return response.status(400).json({
+                message: "Check your password",
                 error: true,
                 success: false
-            });
+            })
         }
+
         const accessToken = await generatedAccessToken(user._id)
-        const refreshToken = await generatedRefreshToken(user.id)
+        const refreshToken = await generatedRefreshToken(user._id)
+
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
+            last_login_date: new Date()
+        })
+
         const cookiesOption = {
             httpOnly: true,
-            sameSite: "none",
-            secure: true
+            secure: true,
+            sameSite: "None"
         }
-        res.cookie("accessToken", accessToken, cookiesOption)
-        res.cookie('refreshToken', accessToken, cookiesOption)
-        return res.json({
-            message: "login successfully",
+        response.cookie('accessToken', accessToken, cookiesOption)
+        response.cookie('refreshToken', refreshToken, cookiesOption)
+
+        return response.json({
+            message: "Login successfully",
             error: false,
             success: true,
             data: {
@@ -154,31 +168,95 @@ export async function loginController(req, res) {
                 refreshToken
             }
         })
-    } catch (error) {
-        return res.json({
-            message: error.message || error,
-        })
-    }
-}
-// logout controller
-export async function logoutController(req, res) {
-    try {
-        res.clearCookie("accessToken")
-        res.clearCookie("refreshToken")
-        return res.json({
-            message: "logout successfully",
-            error: false,
-            success: true
-        })
 
-    }
-    catch (error) {
-        return res.json({
+    } catch (error) {
+        return response.status(500).json({
             message: error.message || error,
             error: true,
             success: false
         })
     }
+}
+
+//logout controller
+export async function logoutController(request, response) {
+    try {
+        const userid = request.userId //middleware
+
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+
+        response.clearCookie("accessToken", cookiesOption)
+        response.clearCookie("refreshToken", cookiesOption)
+
+        const removeRefreshToken = await UserModel.findByIdAndUpdate(userid, {
+            refresh_token: ""
+        })
+
+        return response.json({
+            message: "Logout successfully",
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+// // logout controller
+// export async function logoutController(req, res) {
+//     try {
+//         const userid = req.user._id  //middleware
+//         const cookiesOption = {
+//             httpOnly: true,
+//             secure: true,
+//             sameSite: "none"
+
+//         }
+//         res.clearCookie("accessToken", cookiesOption)
+//         res.clearCookie("refreshToken", cookiesOption)
+//         const removeRefreshToken = await UserModel.findByIdAndUpdate(
+//             userid,
+//             {
+//                 refresh_token: ""
+
+//             }
+
+//         )
+//     }
+//     catch (error) {
+//         return res.json({
+//             message: error.message || error,
+//             error: true,
+//             success: false
+//         })
+//     }
 
 
+// }
+// upload image controller
+export async function uploadAvatar(req, res) {
+    try {
+        const image = req.file
+        const upload = await uploadImageCloudinary(image)
+        return res.json({
+            message: "profile updated successfully",
+            error: true,
+            success: false
+        })
+    }
+    catch (error) {
+        return res.json({
+            message: error.message || error && "something went wrong",
+            error: true,
+            success: false
+        })
+
+    }
 }
