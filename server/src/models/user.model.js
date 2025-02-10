@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, "provide email"]
-
+        required: [true, "provide email"],
+        unique: true
     },
     password: {
         type: String,
@@ -54,14 +54,12 @@ const userSchema = new mongoose.Schema({
         ref: 'order'
     }],
     forgot_password_otp: {
-        type: Date,
+        type: String,
         default: ""
-
     },
     forgot_password_expiry: {
         type: Date,
         default: ""
-
     },
     role: {
         type: String,

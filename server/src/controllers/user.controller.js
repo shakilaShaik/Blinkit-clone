@@ -6,6 +6,8 @@ import generatedAccessToken from '../utils/generatedAccessToken.js'
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
 import upload from "../middleware/multer.js";
+import generateOtp from "../utils/generateOtp.js";
+import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 export async function registerUserController(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -26,7 +28,7 @@ export async function registerUserController(req, res) {
             })
         }
         const salt = await bcryptjs.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt);
+        const hashPassword = await bcryptjs.hash(password, salt);
         const payload = {
             name,
             email,
@@ -296,6 +298,107 @@ export async function updateDetailsController(req, res) {
     catch (error) {
         return res.status(500).json({
             message: error.message || "something went wrong",
+            error: true,
+            success: false
+        });
+    }
+}
+// forget password controller
+export async function forgotPasswordController(req, res) {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.json({
+                message: "provide email",
+                error: true,
+                success: false
+            });
+        }
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.json({
+                message: "user not found",
+                error: true,
+                success: false
+            });
+        }
+        const otp = generateOtp();
+        const expireTime = new Date() + 60 * 60 * 1000 // 1hr
+        // Set to 1 hour from now
+
+        await UserModel.findByIdAndUpdate(user._id, {
+            forgot_password_otp: otp,
+            forgot_password_expiry: new Date(expireTime).toISOString() // Store as Date object
+        });
+
+        await sendEmail({
+            sendTo: email,
+            subject: "Forgot password for Blinkit-clone",
+            html: forgotPasswordTemplate(user.name, otp)
+        });
+
+        return res.json({
+            message: "OTP sent successfully",
+            error: false,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
+// verify OTP controller
+export async function verifyOtpController(req, res) {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) {
+            return res.json({
+                message: "provide email and OTP",
+                error: true,
+                success: false
+            });
+        }
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            return res.json({
+                message: "User not found",
+                error: true,
+                success: false
+            });
+        }
+
+        const currentTime = new Date().toISOString()
+        const expiryTime = user.forgot_password_expiry; // Use the Date object directly
+
+        if (expiryTime < currentTime) {
+            return res.json({
+                message: "OTP expired",
+                error: true,
+                success: false
+            });
+        }
+        if (user.forgot_password_otp !== otp) {
+            return res.json({
+                message: "OTP not matched",
+                error: true,
+                success: false
+            });
+        }
+
+        // OTP is verified successfully
+        return res.json({
+            message: "OTP verified successfully",
+            error: false,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
             error: true,
             success: false
         });
