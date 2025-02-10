@@ -215,6 +215,13 @@ export async function uploadAvatar(req, res) {
     try {
         const userId = req.userId
         const image = req.file
+        if (!image) {
+            return res.json({
+                message: "provide image",
+                error: true,
+                success: false
+            })
+        }
         const upload = await uploadImageCloudinary(image)
         const updateUser = await UserModel.findByIdAndUpdate(
             userId, {
@@ -242,5 +249,55 @@ export async function uploadAvatar(req, res) {
 }
 // update details controller
 export async function updateDetailsController(req, res) {
+    const userId = req.userId //middleware
+    try {
+        const { name, email, mobile, password } = req.body
+        if (!name && !email && !mobile && !password) { // Check if at least one field is provided
+            return res.json({
+                message: "At least one field must be provided to update",
+                error: true,
+                success: false
+            })
+        }
 
+        // Hash the password if provided
+        let hashedPassword;
+        if (password) {
+            const salt = await bcryptjs.genSalt(10);
+            hashedPassword = await bcryptjs.hash(password, salt);
+        }
+
+        const updateUser = await UserModel.findByIdAndUpdate(userId, {
+            ...(name && { name }), // Update name if provided
+            ...(email && { email }), // Update email if provided
+            ...(mobile && { mobile: mobile }), // Update phone if provided
+            ...(hashedPassword && { password: hashedPassword }) // Update password if provided
+        }, { new: true });
+
+        if (!updateUser) {
+            return res.status(404).json({
+                message: "User not found",
+                error: true,
+                success: false
+            });
+        }
+
+        return res.json({
+            message: "details updated successfully",
+            error: false,
+            success: true,
+            data: {
+                name: updateUser.name,
+                email: updateUser.email,
+                phone: updateUser.mobile
+            }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message || "something went wrong",
+            error: true,
+            success: false
+        });
+    }
 }
