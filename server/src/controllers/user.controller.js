@@ -5,7 +5,7 @@ import generatedRefreshToken from "../utils/generateRefreshToken.js";
 import generatedAccessToken from '../utils/generatedAccessToken.js'
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
-// import upload from "../middleware/multer.js";
+import upload from "../middleware/multer.js";
 export async function registerUserController(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -25,7 +25,7 @@ export async function registerUserController(req, res) {
                 success: false
             })
         }
-        const salt = await bcrypt.genSalt(10);
+        const salt = await bcryptjs.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
         const payload = {
             name,
@@ -101,7 +101,7 @@ export async function verifyEmailController(req, res) {
         });
     }
 }
-//  {Login controller}
+
 //login controller
 export async function loginController(request, response) {
     try {
@@ -209,46 +209,26 @@ export async function logoutController(request, response) {
         })
     }
 }
-// // logout controller
-// export async function logoutController(req, res) {
-//     try {
-//         const userid = req.user._id  //middleware
-//         const cookiesOption = {
-//             httpOnly: true,
-//             secure: true,
-//             sameSite: "none"
 
-//         }
-//         res.clearCookie("accessToken", cookiesOption)
-//         res.clearCookie("refreshToken", cookiesOption)
-//         const removeRefreshToken = await UserModel.findByIdAndUpdate(
-//             userid,
-//             {
-//                 refresh_token: ""
-
-//             }
-
-//         )
-//     }
-//     catch (error) {
-//         return res.json({
-//             message: error.message || error,
-//             error: true,
-//             success: false
-//         })
-//     }
-
-
-// }
 // upload image controller
 export async function uploadAvatar(req, res) {
     try {
+        const userId = req.userId
         const image = req.file
         const upload = await uploadImageCloudinary(image)
+        const updateUser = await UserModel.findByIdAndUpdate(
+            userId, {
+            avatar: upload.url
+        }
+        )
         return res.json({
             message: "profile updated successfully",
             error: true,
-            success: false
+            success: false,
+            data: {
+                userId: updateUser._id,
+                avatar: updateUser.avatar
+            }
         })
     }
     catch (error) {
@@ -259,4 +239,8 @@ export async function uploadAvatar(req, res) {
         })
 
     }
+}
+// update details controller
+export async function updateDetailsController(req, res) {
+
 }
