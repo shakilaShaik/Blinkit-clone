@@ -1,7 +1,11 @@
-import "./App.css";
+import React from "react";
 
-function App() {
-  return <main className="bg-black min-h-screen">Blinkit-clone</main>;
-}
+const App = () => {
+  return (
+    <div>
+      <h1>Hello</h1>
+    </div>
+  );
+};
 
 export default App;
