@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
 
+import Footer from "./components/Footer";
 function App() {
   console.log("App component rendered");
   return (
