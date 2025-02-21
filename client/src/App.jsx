@@ -1,16 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
+  console.log("App component rendered");
   return (
-    <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    <div>
+      <h1>App Component</h1>
+      <Outlet />
+    </div>
   );
 }
 

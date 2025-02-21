@@ -1,7 +1,14 @@
-import React from "react";
+// import React from "react";
+// import Search from "./Search";
 
-const Header = () => {
-  return <div>Header</div>;
-};
+// const Header = () => {
+//   return (
+//     <div>
+//       {/* <Search /> */}
 
-export default Header;
+//       <h1>Header</h1>
+//     </div>
+//   );
+// };
+
+// export default Header;
