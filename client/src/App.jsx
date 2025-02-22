@@ -1,10 +1,18 @@
-import "./App.css";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 
 function App() {
   return (
-    <main className="flex items-center justify-center h-screen bg-gray-900">
-      <h1 className="text-4xl font-bold text-white">Hello, Tailwind!</h1>
-    </main>
+    <>
+      {/* <Header /> */}
+      <main>
+        <Outlet />
+      </main>
+      {/* <Footer /> */}
+    </>
   );
 }
 
