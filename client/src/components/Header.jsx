@@ -23,7 +23,7 @@ const Header = () => {
           </Link>
         </div>
 
-        <div>
+        <div className="container mx-auto flex items-center px-2 justify-center">
           <Search />
         </div>
 

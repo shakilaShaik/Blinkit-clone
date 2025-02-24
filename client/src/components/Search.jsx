@@ -20,20 +20,20 @@ const Search = () => {
   return (
     <div
       className="w-full min-w-[300px] lg:min-[420px] h-12 rounded
-     border overflow-hidden flex text-neutral-600 bg-slate-100"
+     border overflow-hidden flex text-neutral-600 bg-slate-100 group focus-within:border-primary-200 "
     >
-      <button className="flex justify-center items-center h-full p-3">
+      <button className="flex justify-center items-center h-full p-3  group-focus-within:text-primary-200 bg-white rounded-full shadow-md">
         <IoSearch size={22} />
       </button>
-      <div>
+      <div className="flex w-full  items-center">
         {!isSearchPage ? (
           <div
-            onClick={redirectToSearchPage}
-            className="flex justify-center items-center "
+            onClick={redirectToSearchPage} className="w-full h-full flex items-center"
+
           >
             <TypeAnimation
               sequence={[
-                // Same substring at the start will only be typed out once, initially
+
                 'Search "milk"',
                 1000, // wait 1s before replacing "Mice" with "Hamsters"
                 'Search "bread"',
@@ -59,8 +59,10 @@ const Search = () => {
           </div>
         ) : (
           // {in the search page}
-          <div className="w-full ">
-            <input type="text " placeholder="Search for Atta, dal" />
+          <div className="w-full h-full" >
+            <input type="text " placeholder="Search for Atta, dal"
+              autoFocus
+              className="bg-transparent w-full h-full outline-none" />
           </div>
         )}
       </div>
