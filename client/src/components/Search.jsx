@@ -5,12 +5,12 @@ const Search = () => {
   return (
     <div
       className="w-full min-w-[300px] lg:min-[420px] h-12 rounded
-     border overflow-hidden flex text-neutral-600 "
+     border overflow-hidden flex text-neutral-600 bg-slate-100"
     >
       <button className="flex justify-center items-center h-full p-3">
         <IoSearch size={22} />
       </button>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ">
         <TypeAnimation
           sequence={[
             // Same substring at the start will only be typed out once, initially
@@ -20,7 +20,7 @@ const Search = () => {
             1000,
             'Search "sugar"',
             1000,
-            'Search "panner"',
+            'Search "Lays"',
             1000,
             'Search "chocolate"',
             1000,
