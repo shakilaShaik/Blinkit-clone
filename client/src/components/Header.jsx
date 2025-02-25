@@ -23,7 +23,7 @@ const Header = () => {
           </Link>
         </div>
 
-        <div>
+        <div >
           <Search />
         </div>
 
