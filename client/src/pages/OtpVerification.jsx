@@ -31,10 +31,11 @@ const OtpVerification = () => {
 
       if (response.data.error) {
         toast.error(response.data.message);
+        console.log(response);
       }
     } catch (error) {
+      console.error("An error occurred:", error);
       AxiosToastError(error);
-      console.log(error);
     }
   };
   return (

@@ -356,7 +356,7 @@ export async function verifyOtpController(req, res) {
     try {
         const { email, otp } = req.body;
         if (!email || !otp) {
-            return res.json({
+            return res.status(400).json({
                 message: "provide email and OTP",
                 error: true,
                 success: false
