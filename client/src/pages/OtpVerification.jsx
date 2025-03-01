@@ -8,9 +8,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const OtpVerification = () => {
   const [data, setData] = useState(["", "", "", "", "", ""]);
+  console.log(data)
   const inputRef = useRef([null, null, null, null, null, null]);
   const navigate = useNavigate();
   const location = useLocation();
+  console.log("state is",location.state)
   useEffect(() => {
     if (!location.state?.email) {
       navigate("/forgot-password");
@@ -22,12 +24,15 @@ const OtpVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     try {
       const response = await Axios({
         ...SummaryApi.otp_verification,
         data: data,
         email: location.state?.email,
       });
+
+
 
       if (response.data.error) {
         toast.error(response.data.message);
@@ -82,9 +87,8 @@ const OtpVerification = () => {
 
           <button
             disabled={!validValue}
-            className={`${
-              validValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
-            } text-white py-2 rounded font-semibold my-3 tracking-wide`}
+            className={`${validValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
+              } text-white py-2 rounded font-semibold my-3 tracking-wide`}
           >
             Verify OTP
           </button>
