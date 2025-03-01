@@ -12,7 +12,7 @@ const OtpVerification = () => {
   const inputRef = useRef([null, null, null, null, null, null]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("state is",location.state)
+  console.log("state is", location.state)
   useEffect(() => {
     if (!location.state?.email) {
       navigate("/forgot-password");
@@ -28,10 +28,14 @@ const OtpVerification = () => {
     try {
       const response = await Axios({
         ...SummaryApi.otp_verification,
-        data: data,
-        email: location.state?.email,
+        data: {
+          otp: data.join(""),
+          email: location?.state?.email
+        }
       });
-
+      if (response.data.success) {
+        toast.success(response.data.message)
+      }
 
 
       if (response.data.error) {
