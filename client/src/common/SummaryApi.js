@@ -7,6 +7,14 @@ const SummaryApi = {
     login: {
         url: "/api/user/login",
         method: "post"
+    },
+    forgot_password: {
+        url: "/api/user/forgot-password",
+        method: "put"
+    },
+    otp_verification: {
+        url: "/api/user/verify-otp",
+        method: "put"
     }
 }
 
