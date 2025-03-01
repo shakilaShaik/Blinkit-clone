@@ -39,8 +39,13 @@ const ForgotPassword = () => {
       }
       if (response.data.success) {
         toast.success(response.data.message);
+        navigate("/otp-verification", {
+          state: data,
+        });
       }
-      navigate("/otp-verification");
+      setData({
+        email: "",
+      });
     } catch (error) {
       AxiosToastError(error);
       console.log(error);
