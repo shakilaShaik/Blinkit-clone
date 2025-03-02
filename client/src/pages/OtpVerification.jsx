@@ -35,12 +35,19 @@ const OtpVerification = () => {
       });
       if (response.data.success) {
         toast.success(response.data.message)
+        setData(['', '', '', '', '', ''])
+        navigate('/reset-password', {
+          state: {
+            data: response.data,
+            email: location.state?.email
+          }
+        })
       }
 
 
       if (response.data.error) {
         toast.error(response.data.message);
-        console.log(response);
+
       }
     } catch (error) {
       console.error("An error occurred:", error);
