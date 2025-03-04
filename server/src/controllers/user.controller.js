@@ -1,6 +1,7 @@
 import UserModel from "../models/user.model.js";
 import sendEmail from "../config/send.email.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 import generatedRefreshToken from "../utils/generateRefreshToken.js";
 import generatedAccessToken from '../utils/generatedAccessToken.js'
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
@@ -337,6 +338,7 @@ export async function forgotPasswordController(req, res) {
             html: forgotPasswordTemplate(user.name, otp)
         });
 
+
         return res.json({
             message: "OTP sent successfully",
             error: false,
@@ -362,6 +364,7 @@ export async function verifyOtpController(req, res) {
                 success: false
             });
         }
+
         const user = await UserModel.findOne({ email });
 
         if (!user) {
@@ -390,12 +393,19 @@ export async function verifyOtpController(req, res) {
             });
         }
 
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
+            forgot_password_otp: "",
+            forgot_password_expiry: ""
+        })
+
         // OTP is verified successfully
         return res.json({
             message: "OTP verified successfully",
             error: false,
             success: true
         });
+
+
     } catch (error) {
         return res.status(500).json({
             message: error.message || error,
