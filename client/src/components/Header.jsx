@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import useMobile from "../hooks/useMobile";
 import { BsCart4 } from "react-icons/bs";
+    
+import { GoTriangleDown } from "react-icons/go";
 
 const Header = () => {
   const [isMobile] = useMobile();
@@ -56,9 +58,18 @@ const Header = () => {
 
             {/**Desktop**/}
             <div className="hidden lg:flex  items-center gap-10">
-              <button onClick={redirectToLoginPage} className="text-lg px-2">
-                Login
-              </button>
+              {user?._id ? (
+                <div>
+                  <div>
+                    <p>Account</p>
+                    <GoTriangleDown size={20} />
+                  </div>
+                </div>
+              ) : (
+                <button onClick={redirectToLoginPage} className="text-lg px-2">
+                  Login
+                </button>
+              )}
 
               <button className="flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white">
                 {/**add to card icons */}
