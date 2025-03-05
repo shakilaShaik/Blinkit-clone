@@ -1,3 +1,5 @@
+import { logout } from "../store/UserSlice";
+
 export const baseURL = "http://localhost:7000";
 const SummaryApi = {
     register: {
@@ -28,6 +30,10 @@ const SummaryApi = {
     },
     user_details: {
         url: "/api/user/user-details",
+        method: "get"
+    },
+    logout: {
+        url: '/api/user/logout',
         method: "get"
     }
 }

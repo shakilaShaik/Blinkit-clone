@@ -38,8 +38,24 @@ const userSlice = createSlice({
 
 
 
+        },
+        logout: (state, action) => {
+            state._id = ""
+            state.name = ""
+            state.email = ''
+            state.avatar = ''
+            state.mobile = ''
+            state.address_details = ""
+            state.createdAt = ""
+            state.last_login_date = ""
+            state.order_history = []
+            state.role = ""
+            state.shopping_cart = []
+            state.status = ""
+            state.verify_email = ""
+
         }
     }
 })
-export const { setUserDetails } = userSlice.actions
+export const { setUserDetails, logout } = userSlice.actions
 export default userSlice.reducer
