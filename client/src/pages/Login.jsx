@@ -49,6 +49,11 @@ const Login = () => {
         console.log("user details are", userDetails);
         dispatch(setUserDetails(userDetails.data));
 
+        setData({
+          email: "",
+          password: "",
+        });
+
         navigate("/");
       }
     } catch (error) {
