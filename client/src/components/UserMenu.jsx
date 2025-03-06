@@ -34,7 +34,11 @@ const UserMenu = ({ close }) => {
     <div>
       <div className="font-semibold"> My Account</div>
 
-      <div className="text-sm">{user.name || user.mobile}</div>
+      <div className="text-sm">
+        {user.name || user.mobile}
+
+        <Link></Link>
+      </div>
       <Divider />
       <div className="text-sm grid gap-1">
         <Link to={""} className="px-2 hover:bg-orange-200">
