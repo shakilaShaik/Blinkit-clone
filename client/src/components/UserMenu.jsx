@@ -17,10 +17,13 @@ const UserMenu = ({ close }) => {
         ...SummaryApi.logout,
       });
       if (response.data.success) {
-        close();
+        if (close) {
+          close();
+        }
         dispatch(logout());
         localStorage.clear();
         toast.success(response.data.message);
+        navigate("/");
       }
     } catch (error) {
       AxiosToastError(error);

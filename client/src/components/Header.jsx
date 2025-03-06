@@ -26,6 +26,13 @@ const Header = () => {
     navigate("/login");
   };
 
+  const handleMobileUser = () => {
+    if (!user._id) {
+      navigate("/login");
+      return;
+    }
+    navigate("/user");
+  };
   return (
     <header className="h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white">
       {!(isSearchPage && isMobile) && (
@@ -58,7 +65,10 @@ const Header = () => {
           {/**login and my cart */}
           <div className="">
             {/**user icons display in only mobile version**/}
-            <button className="text-neutral-600 lg:hidden">
+            <button
+              className="text-neutral-600 lg:hidden "
+              onClick={handleMobileUser}
+            >
               <FaRegCircleUser size={26} />
             </button>
 
@@ -97,11 +107,6 @@ const Header = () => {
                   <BsCart4 size={26} />
                 </div>
                 <div className="font-semibold text-sm">
-                  <div>
-                    <p> Items</p>
-                    <p>total Price</p>
-                  </div>
-
                   <p>My Cart</p>
                 </div>
               </button>
