@@ -1,16 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Divider from "./Divider";
 import SummaryApi from "../common/SummaryApi";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
 import { logout } from "../store/UserSlice";
 import AxiosToastError from "../utils/AxiosToastError";
+import { HiOutlineExternalLink } from 'react-icons/hi'
 
 const UserMenu = ({ close }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const response = await Axios({
@@ -27,6 +29,7 @@ const UserMenu = ({ close }) => {
       }
     } catch (error) {
       AxiosToastError(error);
+      console.log(error)
     }
   };
 
@@ -34,10 +37,12 @@ const UserMenu = ({ close }) => {
     <div>
       <div className="font-semibold"> My Account</div>
 
-      <div className="text-sm">
-        {user.name || user.mobile}
-
-        <Link></Link>
+      <div className="text-sm flex items-center gap-2" >
+        <span className="max-w-53 text-ellipsis line-clamp-1"> {user.name || user.mobile}</span>
+        <Link to={"dashboard/profile"}
+          className="hover:text-primary-200">
+          <HiOutlineExternalLink size={15} />
+        </Link>
       </div>
       <Divider />
       <div className="text-sm grid gap-1">
