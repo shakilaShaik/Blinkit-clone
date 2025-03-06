@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import fetchUserDetails from "./utils/FetchUserDetails";
+import fetchUserDetails from "./utils/fetchUserDetails";
 import { useEffect } from "react";
 import { setUserDetails } from "./store/UserSlice";
 import { useDispatch } from "react-redux";
@@ -12,8 +12,8 @@ function App() {
   const dispatch = useDispatch();
   const fetchUser = async () => {
     const userData = await fetchUserDetails();
-    console.log(userData.data, "user data is");
     dispatch(setUserDetails(userData.data));
+    console.log("user data is", userData.data);
   };
   useEffect(() => {
     fetchUser();

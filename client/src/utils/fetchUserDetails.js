@@ -6,12 +6,12 @@ const fetchUserDetails = async () => {
         const response = await Axios({
             ...SummaryApi.user_details,
         })
-        console.log(response.data)
+        console.log("user details are from fetch user details", response.data)
         return response.data
 
     }
     catch (error) {
-        console.log(error)
+        console.log("error from fetch user details", error)
     }
 }
 export default fetchUserDetails

@@ -147,7 +147,7 @@ export async function loginController(request, response) {
             })
         }
 
-        const accessToken = await generatedAccessToken(user._id)
+        const accesstoken = await generatedAccessToken(user._id)
         const refreshToken = await generatedRefreshToken(user._id)
 
         const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
@@ -159,7 +159,7 @@ export async function loginController(request, response) {
             secure: true,
             sameSite: "None"
         }
-        response.cookie('accessToken', accessToken, cookiesOption)
+        response.cookie('accessToken', accesstoken, cookiesOption)
         response.cookie('refreshToken', refreshToken, cookiesOption)
 
         return response.json({
@@ -167,7 +167,7 @@ export async function loginController(request, response) {
             error: false,
             success: true,
             data: {
-                accessToken,
+                accesstoken,
                 refreshToken
             }
         })
