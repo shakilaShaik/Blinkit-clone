@@ -5,7 +5,7 @@ import Divider from "./Divider";
 import SummaryApi from "../common/SummaryApi";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
-import { logout } from "../store/UserSlice";
+import { logout } from "../store/userSlice";
 import AxiosToastError from "../utils/AxiosToastError";
 import { HiOutlineExternalLink } from "react-icons/hi";
 

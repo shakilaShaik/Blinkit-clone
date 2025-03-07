@@ -8,11 +8,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const OtpVerification = () => {
   const [data, setData] = useState(["", "", "", "", "", ""]);
-  console.log(data)
+  console.log(data);
   const inputRef = useRef([null, null, null, null, null, null]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("state is", location.state)
+
   useEffect(() => {
     if (!location.state?.email) {
       navigate("/forgot-password");
@@ -24,33 +24,29 @@ const OtpVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     try {
       const response = await Axios({
         ...SummaryApi.otp_verification,
         data: {
           otp: data.join(""),
-          email: location?.state?.email
-        }
+          email: location?.state?.email,
+        },
       });
       if (response.data.success) {
-        toast.success(response.data.message)
-        setData(['', '', '', '', '', ''])
-        navigate('/reset-password', {
+        toast.success(response.data.message);
+        setData(["", "", "", "", "", ""]);
+        navigate("/reset-password", {
           state: {
             data: response.data,
-            email: location.state?.email
-          }
-        })
+            email: location.state?.email,
+          },
+        });
       }
-
 
       if (response.data.error) {
         toast.error(response.data.message);
-
       }
     } catch (error) {
-      console.error("An error occurred:", error);
       AxiosToastError(error);
     }
   };
@@ -76,7 +72,6 @@ const OtpVerification = () => {
                     value={data[index]}
                     onChange={(e) => {
                       const value = e.target.value;
-                      console.log("value is", value);
 
                       const newData = [...data];
                       newData[index] = value;
@@ -98,8 +93,9 @@ const OtpVerification = () => {
 
           <button
             disabled={!validValue}
-            className={`${validValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
-              } text-white py-2 rounded font-semibold my-3 tracking-wide`}
+            className={`${
+              validValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
+            } text-white py-2 rounded font-semibold my-3 tracking-wide`}
           >
             Verify OTP
           </button>

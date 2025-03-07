@@ -7,7 +7,7 @@ import SummaryApi from "../common/SummaryApi";
 import AxiosToastError from "../utils/AxiosToastError";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserDetails } from "../store/UserSlice";
+import { setUserDetails } from "../store/userSlice";
 import fetchUserDetails from "../utils/fetchUserDetails";
 
 const Login = () => {
@@ -46,7 +46,7 @@ const Login = () => {
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
 
         const userDetails = await fetchUserDetails();
-        console.log("user details are", userDetails);
+
         dispatch(setUserDetails(userDetails.data));
 
         setData({
@@ -58,7 +58,6 @@ const Login = () => {
       }
     } catch (error) {
       AxiosToastError(error);
-      console.log(error);
     }
   };
 
