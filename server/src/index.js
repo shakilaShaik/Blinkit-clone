@@ -5,6 +5,8 @@ import morgan from "morgan"
 import cookieParser from "cookie-parser"
 import connectDB from "./config/connectDB.js"
 import userRouter from "./route/user.route.js"
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express()
 app.use(cors({

@@ -11,6 +11,8 @@ import ResetPassword from "./pages/ResetPassword";
 import UserMenuMobile from "./pages/UserMenuMobile";
 import Profile from "./pages/Profile";
 import Dashboard from "./layouts/Dashboard";
+import MyOrders from "./pages/MyOrders";
+import Address from "./pages/Address";
 const router = createBrowserRouter([
   {
     path: "/",

@@ -41,16 +41,16 @@ const UserMenu = ({ close }) => {
         <span className="max-w-53 text-ellipsis line-clamp-1">
           {user.name || user.mobile}
         </span>
-        <Link to={"dashboard/profile"} className="hover:text-primary-200">
+        <Link to={"/dashboard/profile"} className="hover:text-primary-200">
           <HiOutlineExternalLink size={15} />
         </Link>
       </div>
       <Divider />
       <div className="text-sm grid gap-1">
-        <Link to={"dashboard/my-orders"} className="px-2 hover:bg-orange-200">
+        <Link to={"/dashboard/my-orders"} className="px-2 hover:bg-orange-200">
           My Orders
         </Link>
-        <Link to={"dashboard/address"} className="px-2 hover:bg-orange-200">
+        <Link to={"/dashboard/address"} className="px-2 hover:bg-orange-200">
           Save Address
         </Link>
         <button
