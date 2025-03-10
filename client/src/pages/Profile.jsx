@@ -6,11 +6,12 @@ import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import AxiosToastError from "../utils/AxiosToastError";
 import toast from "react-hot-toast";
-import { setUserDetails, updatedAvatar } from "../store/userSlice";
+import { setUserDetails } from "../store/userSlice";
 import fetchUserDetails from "../utils/fetchUserDetails";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
+  console.log("user from profile", user);
   const [openProfileAvatarEdit, setProfileAvatarEdit] = useState(false);
   const [userData, setUserData] = useState({
     name: user.name,
@@ -74,7 +75,9 @@ const Profile = () => {
       </div>
       <button
         onClick={() => setProfileAvatarEdit(true)}
-        className="text-sm min-w-20 border border-primary-100 hover:border-primary-200 hover:bg-primary-200 px-3 py-1 rounded-full mt-3"
+        className="text-sm min-w-20 border border-primary-100
+         hover:border-primary-200 hover:bg-primary-200 px-3 py-1
+          rounded-full mt-3"
       >
         Edit
       </button>

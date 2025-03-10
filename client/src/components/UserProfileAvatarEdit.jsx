@@ -9,6 +9,7 @@ import { IoClose } from "react-icons/io5";
 
 const UserProfileAvatarEdit = ({ close }) => {
   const user = useSelector((state) => state.user);
+  console.log("user from profile avatar edit", user);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +35,7 @@ const UserProfileAvatarEdit = ({ close }) => {
       });
       const { data: responseData } = response;
       console.log("responseData from upload avatar", responseData);
-      dispatch(updatedAvatar(response.data.avatar));
+      dispatch(updatedAvatar(responseData.data.avatar));
     } catch (error) {
       AxiosToastError(error);
       console.log("error from upload avatar", error);
