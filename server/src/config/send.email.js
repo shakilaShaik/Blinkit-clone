@@ -15,15 +15,8 @@ const transporter = nodemailer.createTransport({
 
 // Function to send an email
 const sendEmail = async ({ sendTo, subject, html }) => {
-    console.log('Email configuration:', {
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        user: process.env.EMAIL_USER,
-        // Don't log the actual password
-        hasPassword: !!process.env.EMAIL_PASS
-    });
 
-    console.log(`Sending email to: ${sendTo}, Subject: ${subject}`);
+
     try {
         const info = await transporter.sendMail({
             from: `"Blinkit-clone" ${process.env.EMAIL_USER}`,
@@ -31,11 +24,9 @@ const sendEmail = async ({ sendTo, subject, html }) => {
             subject: subject,
             html: html
         });
-
-        console.log(`Email sent: ${info.messageId}`);
         return info;
     } catch (error) {
-        console.error(`Error sending email: ${error.message}`);
+
         throw error;
     }
 };

@@ -11,9 +11,7 @@ const uploadImageCloudinary = async (image) => {
 
     const uploadImage = await new Promise((resolve, reject) => {
         cloudinary.uploader.upload_stream({ folder: "Blinkit-clone" }, (error, uploadResult) => {
-            if (error) {
-                return reject(error)
-            }
+
             return resolve(uploadResult);
         }).end(buffer)
     })

@@ -34,7 +34,7 @@ const UserProfileAvatarEdit = ({ close }) => {
       });
       const { data: responseData } = response;
       console.log("responseData from upload avatar", responseData);
-      dispatch(updatedAvatar(responseData.data.avatar));
+      dispatch(updatedAvatar(response.data.avatar));
     } catch (error) {
       AxiosToastError(error);
       console.log("error from upload avatar", error);

@@ -6,7 +6,7 @@ import generatedRefreshToken from "../utils/generateRefreshToken.js";
 import generatedAccessToken from '../utils/generatedAccessToken.js'
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
-import upload from "../middleware/multer.js";
+
 import generateOtp from "../utils/generateOtp.js";
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 export async function registerUserController(req, res) {
@@ -214,7 +214,7 @@ export async function logoutController(request, response) {
 }
 
 // upload image controller
-export async function uploadAvatar(req, res) {
+export async function uploadAvatarController(req, res) {
     try {
         const userId = req.userId
         const image = req.file
@@ -236,8 +236,8 @@ export async function uploadAvatar(req, res) {
             error: false,
             success: true,
             data: {
-                userId: updateUser._id,
-                avatar: updateUser.avatar
+                _id: userId,
+                avatar: upload.url
             }
         })
     }
