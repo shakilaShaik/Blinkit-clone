@@ -70,7 +70,7 @@ const CategoryPage = () => {
   };
 
   return (
-    <section className="">
+    <section className="mt-4">
       <div className="p-2   bg-white shadow-md flex items-center justify-between">
         <h2 className="font-semibold">Category</h2>
         <button
