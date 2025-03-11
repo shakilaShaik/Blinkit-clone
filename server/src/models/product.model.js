@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const productSchema = new mongoose.import mongoose from "mongoose";
+
 
 const productSchema = new mongoose.Schema({
     name: {

@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser"
 import connectDB from "./config/connectDB.js"
 import userRouter from "./route/user.route.js"
 import dotenv from "dotenv"
+import categoryRouter from "./route/category.route.js"
+import uploadRouter from "./route/upload.router.js"
 dotenv.config()
 
 const app = express()
@@ -34,6 +36,8 @@ connectDB().then(() => {
 
 app.use('/api/user', userRouter)
 
+app.use("/api/category", categoryRouter)
 
+app.use("/api/file", uploadRouter)
 
 export default app
