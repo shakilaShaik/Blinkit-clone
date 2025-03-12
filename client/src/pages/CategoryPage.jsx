@@ -23,11 +23,6 @@ const CategoryPage = () => {
   const [deleteCategory, setDeleteCategory] = useState({
     _id: "",
   });
-  // const allCategory = useSelector(state => state.product.allCategory)
-
-  // useEffect(()=>{
-  //     setCategoryData(allCategory)
-  // },[allCategory])
 
   const fetchCategory = async () => {
     try {
@@ -36,6 +31,7 @@ const CategoryPage = () => {
         ...SummaryApi.getCategory,
       });
       const { data: responseData } = response;
+      console.log("iam the response data from get category", responseData);
 
       if (responseData.success) {
         setCategoryData(responseData.data);
