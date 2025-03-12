@@ -8,7 +8,6 @@ import EditCategory from "../components/EditCategory";
 import CofirmBox from "../components/CofirmBox";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
-import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
@@ -23,6 +22,11 @@ const CategoryPage = () => {
   const [deleteCategory, setDeleteCategory] = useState({
     _id: "",
   });
+  // const allCategory = useSelector(state => state.product.allCategory)
+
+  // useEffect(()=>{
+  //     setCategoryData(allCategory)
+  // },[allCategory])
 
   const fetchCategory = async () => {
     try {
@@ -31,7 +35,6 @@ const CategoryPage = () => {
         ...SummaryApi.getCategory,
       });
       const { data: responseData } = response;
-      console.log("iam the response data from get category", responseData);
 
       if (responseData.success) {
         setCategoryData(responseData.data);
@@ -66,7 +69,7 @@ const CategoryPage = () => {
   };
 
   return (
-    <section className="mt-4">
+    <section className="">
       <div className="p-2   bg-white shadow-md flex items-center justify-between">
         <h2 className="font-semibold">Category</h2>
         <button
