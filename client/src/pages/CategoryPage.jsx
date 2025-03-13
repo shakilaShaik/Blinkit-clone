@@ -8,7 +8,6 @@ import EditCategory from "../components/EditCategory";
 import CofirmBox from "../components/CofirmBox";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
-import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
@@ -23,52 +22,51 @@ const CategoryPage = () => {
   const [deleteCategory, setDeleteCategory] = useState({
     _id: "",
   });
-  const allCategory = useSelector((state) => state.product.allCategory);
+  // const allCategory = useSelector(state => state.product.allCategory)
+
+  // useEffect(()=>{
+  //     setCategoryData(allCategory)
+  // },[allCategory])
+
+  const fetchCategory = async () => {
+    try {
+      setLoading(true);
+      const response = await Axios({
+        ...SummaryApi.getCategory,
+      });
+      const { data: responseData } = response;
+
+      if (responseData.success) {
+        setCategoryData(responseData.data);
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setCategoryData(allCategory);
-  }, [allCategory]);
-  console.log("category data  from category page", categoryData);
+    fetchCategory();
+  }, []);
 
-  // const fetchCategory = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await Axios({
-  //       ...SummaryApi.getCategory,
-  //     });
-  //     const { data: responseData } = response;
+  const handleDeleteCategory = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.deleteCategory,
+        data: deleteCategory,
+      });
 
-  //     if (responseData.success) {
-  //       setCategoryData(responseData.data);
-  //     }
-  //   } catch (error) {
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      const { data: responseData } = response;
 
-  // useEffect(() => {
-  //   fetchCategory();
-  // }, []);
-
-  // const handleDeleteCategory = async () => {
-  //   try {
-  //     const response = await Axios({
-  //       ...SummaryApi.deleteCategory,
-  //       data: deleteCategory,
-  //     });
-
-  //     const { data: responseData } = response;
-
-  //     if (responseData.success) {
-  //       toast.success(responseData.message);
-
-  //       setOpenConfirmBoxDelete(false);
-  //     }
-  //   } catch (error) {
-  //     AxiosToastError(error);
-  //   }
-  // };
+      if (responseData.success) {
+        toast.success(responseData.message);
+        fetchCategory();
+        setOpenConfirmBoxDelete(false);
+      }
+    } catch (error) {
+      AxiosToastError(error);
+    }
+  };
 
   return (
     <section className="">
@@ -120,11 +118,18 @@ const CategoryPage = () => {
       {loading && <Loading />}
 
       {openUploadCategory && (
-        <UploadCategoryModel close={() => setOpenUploadCategory(false)} />
+        <UploadCategoryModel
+          fetchData={fetchCategory}
+          close={() => setOpenUploadCategory(false)}
+        />
       )}
 
       {openEdit && (
-        <EditCategory data={editData} close={() => setOpenEdit(false)} />
+        <EditCategory
+          data={editData}
+          close={() => setOpenEdit(false)}
+          fetchData={fetchCategory}
+        />
       )}
 
       {openConfimBoxDelete && (
