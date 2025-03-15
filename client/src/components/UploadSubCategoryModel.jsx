@@ -60,9 +60,11 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
   const handleSubmitSubCategory = async (e) => {
     e.preventDefault();
 
+    console.log("Submitting data:", subCategoryData);
+
     try {
       const response = await Axios({
-        ...SummaryApi.createSubCategory,
+        ...SummaryApi.addSubCategory,
         data: subCategoryData,
       });
 
@@ -79,6 +81,7 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
         }
       }
     } catch (error) {
+      console.error("Error submitting data:", error);
       AxiosToastError(error);
     }
   };
@@ -186,16 +189,17 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
           </div>
 
           <button
+            type="submit"
             className={`px-4 py-2 border
-                            ${
-                              subCategoryData?.name &&
-                              subCategoryData?.image &&
-                              subCategoryData?.category[0]
-                                ? "bg-primary-200 hover:bg-primary-100"
-                                : "bg-gray-200"
-                            }    
-                            font-semibold
-                        `}
+              ${
+                subCategoryData?.name &&
+                subCategoryData?.image &&
+                subCategoryData?.category[0]
+                  ? "bg-primary-200 hover:bg-primary-100"
+                  : "bg-gray-200"
+              }    
+              font-semibold
+            `}
           >
             Submit
           </button>
