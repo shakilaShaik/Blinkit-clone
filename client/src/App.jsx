@@ -10,7 +10,7 @@ import { setUserDetails } from "./store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "./common/SummaryApi";
 import Axios from "./utils/Axios";
-import { setAllCategory } from "./store/productSlice";
+import { setAllCategory, setAllSubCategory } from "./store/productSlice";
 function App() {
   const dispatch = useDispatch();
   const fetchUser = async () => {
@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     fetchUser();
     fetchCategory();
+    fetchSubCategory();
   }, []);
   const fetchCategory = async () => {
     try {
@@ -37,6 +38,25 @@ function App() {
         console.log("Error response status:", error.response.status);
         console.log("Error response headers:", error.response.headers);
       }
+    }
+  };
+
+  const fetchSubCategory = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.getSubCategory,
+      });
+      const { data: responseData } = response;
+
+      if (responseData.success) {
+        dispatch(
+          setAllSubCategory(
+            responseData.data.sort((a, b) => a.name.localeCompare(b.name))
+          )
+        );
+      }
+    } catch (error) {
+    } finally {
     }
   };
   return (
