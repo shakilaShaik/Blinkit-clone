@@ -74,10 +74,7 @@ const router = createBrowserRouter([
             path: "address",
             element: <Address />,
           },
-          {
-            path: "upload-product",
-            element: <UploadProduct />,
-          },
+
           {
             path: "category",
             element: (
@@ -94,6 +91,15 @@ const router = createBrowserRouter([
               </AdminPermission>
             ),
           },
+          {
+            path: "upload-product",
+            element: (
+              <AdminPermission>
+                <UploadProduct />
+              </AdminPermission>
+            ),
+          },
+
           {
             path: "product",
             element: (
