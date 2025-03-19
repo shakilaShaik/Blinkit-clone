@@ -5,7 +5,7 @@ import Axios from "../utils/Axios";
 import Loading from "../components/Loading";
 import ProductCardAdmin from "../components/ProductCardAdmin";
 import { IoSearchOutline } from "react-icons/io5";
-// import EditProductAdmin from "../components/EditProductAdmin";
+import EditProductAdmin from "../components/EditProductAdmin";
 
 const ProductAdmin = () => {
   const [productData, setProductData] = useState([]);

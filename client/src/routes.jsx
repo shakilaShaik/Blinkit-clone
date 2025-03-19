@@ -1,25 +1,28 @@
-// src/routes.js
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import HomePage from "./pages/HomePage";
+import Home from "./pages/HomePage";
 import SearchPage from "./pages/SearchPage";
-import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import OtpVerification from "./pages/OtpVerification";
 import ResetPassword from "./pages/ResetPassword";
 import UserMenuMobile from "./pages/UserMenuMobile";
-import Profile from "./pages/Profile";
 import Dashboard from "./layouts/Dashboard";
+import Profile from "./pages/Profile";
 import MyOrders from "./pages/MyOrders";
 import Address from "./pages/Address";
-import UploadProduct from "./pages/UploadProduct";
 import CategoryPage from "./pages/CategoryPage";
 import SubCategoryPage from "./pages/SubCategoryPage";
+import UploadProduct from "./pages/UploadProduct";
 import ProductAdmin from "./pages/ProductAdmin";
-import AdminPermission from "./layouts/AdminPermission";
-// import ProductListPage from "./pages/ProductListPage";
-// import ProductDisplayPage from "./pages/ProductDisplayPage";
+import AdminPermision from "./layouts/AdminPermission";
+import ProductListPage from "./pages/ProductListPage";
+import ProductDisplayPage from "./pages/ProductDisplayPage";
+import CartMobile from "./pages/CartMobile";
+import CheckoutPage from "./pages/CheckoutPage";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 
 const router = createBrowserRouter([
   {
@@ -28,38 +31,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <HomePage />,
+        element: <Home />,
       },
       {
-        path: "/search",
+        path: "search",
         element: <SearchPage />,
       },
       {
-        path: "/register",
-        element: <Register />,
-      },
-      {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/forgot-password",
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "forgot-password",
         element: <ForgotPassword />,
       },
       {
-        path: "/otp-verification",
+        path: "verification-otp",
         element: <OtpVerification />,
       },
       {
-        path: "/reset-password",
+        path: "reset-password",
         element: <ResetPassword />,
       },
       {
-        path: "/user",
+        path: "user",
         element: <UserMenuMobile />,
       },
       {
-        path: "/dashboard",
+        path: "dashboard",
         element: <Dashboard />,
         children: [
           {
@@ -67,48 +70,75 @@ const router = createBrowserRouter([
             element: <Profile />,
           },
           {
-            path: "my-orders",
+            path: "myorders",
             element: <MyOrders />,
           },
           {
             path: "address",
             element: <Address />,
           },
-
           {
             path: "category",
             element: (
-              <AdminPermission>
+              <AdminPermision>
                 <CategoryPage />
-              </AdminPermission>
+              </AdminPermision>
             ),
           },
           {
-            path: "sub-category",
+            path: "subcategory",
             element: (
-              <AdminPermission>
+              <AdminPermision>
                 <SubCategoryPage />
-              </AdminPermission>
+              </AdminPermision>
             ),
           },
           {
             path: "upload-product",
             element: (
-              <AdminPermission>
+              <AdminPermision>
                 <UploadProduct />
-              </AdminPermission>
+              </AdminPermision>
             ),
           },
-
           {
             path: "product",
             element: (
-              <AdminPermission>
+              <AdminPermision>
                 <ProductAdmin />
-              </AdminPermission>
+              </AdminPermision>
             ),
           },
         ],
+      },
+      {
+        path: ":category",
+        children: [
+          {
+            path: ":subCategory",
+            element: <ProductListPage />,
+          },
+        ],
+      },
+      {
+        path: "product/:product",
+        element: <ProductDisplayPage />,
+      },
+      {
+        path: "cart",
+        element: <CartMobile />,
+      },
+      {
+        path: "checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "success",
+        element: <Success />,
+      },
+      {
+        path: "cancel",
+        element: <Cancel />,
       },
     ],
   },

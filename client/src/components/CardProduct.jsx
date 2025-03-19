@@ -8,13 +8,12 @@ import AxiosToastError from "../utils/AxiosToastError";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
-// import { useGlobalContext } from "../provider/GlobalProvider";
-// import AddToCartButton from './AddToCartButton'
+import { useGlobalContext } from "../provider/GlobalProvider";
+import AddToCartButton from "./AddToCartButton";
 
 const CardProduct = ({ data }) => {
   const url = `/product/${valideURLConvert(data.name)}-${data._id}`;
   const [loading, setLoading] = useState(false);
-  // const { addToCart } = useGlobalContext(); // Assuming addToCart is a function in your global context
 
   return (
     <Link
@@ -56,12 +55,7 @@ const CardProduct = ({ data }) => {
           {data.stock == 0 ? (
             <p className="text-red-500 text-sm text-center">Out of stock</p>
           ) : (
-            <button
-              // onClick={() => addToCart(data)}
-              className="bg-blue-500 text-white px-2 py-1 rounded"
-            >
-              Add to Cart
-            </button>
+            <AddToCartButton data={data} />
           )}
         </div>
       </div>
