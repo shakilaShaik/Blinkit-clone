@@ -43,6 +43,7 @@ const SearchPage = () => {
       }
     } catch (error) {
       AxiosToastError(error);
+      console.log("axios error from search page", error);
     } finally {
       setLoading(false);
     }

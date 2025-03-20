@@ -100,7 +100,8 @@ const GlobalProvider = ({ children }) => {
   }, [cartItem]);
 
   const handleLogoutOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("cartItems");
+    localStorage.removeItem("userDetails");
     dispatch(handleAddItemCart([]));
   };
 
@@ -135,7 +136,6 @@ const GlobalProvider = ({ children }) => {
 
   useEffect(() => {
     fetchCartItem();
-    handleLogoutOut();
     fetchAddress();
     fetchOrder();
   }, [user]);

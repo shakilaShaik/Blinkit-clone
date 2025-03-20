@@ -8,7 +8,6 @@ import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutPage = () => {
   const {
@@ -60,8 +59,6 @@ const CheckoutPage = () => {
   const handleOnlinePayment = async () => {
     try {
       toast.loading("Loading...");
-      const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-      const stripePromise = await loadStripe(stripePublicKey);
 
       const response = await Axios({
         ...SummaryApi.payment_url,
@@ -74,8 +71,6 @@ const CheckoutPage = () => {
       });
 
       const { data: responseData } = response;
-
-      stripePromise.redirectToCheckout({ sessionId: responseData.id });
 
       if (fetchCartItem) {
         fetchCartItem();

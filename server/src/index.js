@@ -31,7 +31,7 @@ app.use(helmet({
 app.get('/', (req, res) => {
     res.send("Hello world")
 })
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 9000
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("server is running on port", PORT)
