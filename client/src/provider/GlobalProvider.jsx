@@ -125,6 +125,7 @@ const GlobalProvider = ({ children }) => {
         ...SummaryApi.getOrderItems,
       });
       const { data: responseData } = response;
+      console.log("the order data", responseData);
 
       if (responseData.success) {
         dispatch(setOrder(responseData.data));

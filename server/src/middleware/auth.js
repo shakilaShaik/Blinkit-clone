@@ -6,7 +6,9 @@ const auth = async (request, response, next) => {
 
         if (!token) {
             return response.status(401).json({
-                message: "Provide token"
+                message: "plese login",
+                error: true,
+                success: false
             })
         }
 
@@ -26,7 +28,7 @@ const auth = async (request, response, next) => {
 
     } catch (error) {
         return response.status(500).json({
-            message: "You have not login",///error.message || error,
+            message: "plese login again",///error.message || error,
             error: true,
             success: false
         })
