@@ -1,43 +1,51 @@
-import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
-import toast, { Toaster } from "react-hot-toast";
-import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import fetchUserDetails from "./utils/fetchUserDetails";
+import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
+import fetchUserDetails from "./utils/fetchUserDetails";
 import { setUserDetails } from "./store/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import SummaryApi from "./common/SummaryApi";
+import {
+  setAllCategory,
+  setAllSubCategory,
+  setLoadingCategory,
+} from "./store/productSlice";
+import { useDispatch } from "react-redux";
 import Axios from "./utils/Axios";
-import { setAllCategory, setAllSubCategory } from "./store/productSlice";
+import SummaryApi from "./common/SummaryApi";
+import { handleAddItemCart } from "./store/cartProduct";
+import GlobalProvider from "./provider/GlobalProvider";
+import { FaCartShopping } from "react-icons/fa6";
+import CartMobileLink from "./components/CartMobile";
+
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+
   const fetchUser = async () => {
     const userData = await fetchUserDetails();
-    console.log("user data is", userData);
     dispatch(setUserDetails(userData.data));
   };
-  useEffect(() => {
-    fetchUser();
-    fetchCategory();
-    fetchSubCategory();
-  }, []);
+
   const fetchCategory = async () => {
     try {
+      dispatch(setLoadingCategory(true));
       const response = await Axios({
         ...SummaryApi.getCategory,
       });
       const { data: responseData } = response;
-      console.log("response data is", responseData);
-      dispatch(setAllCategory(responseData.data));
-    } catch (error) {
-      console.error("Error fetching category:", error);
-      if (error.response) {
-        console.log("Error response data:", error.response.data);
-        console.log("Error response status:", error.response.status);
-        console.log("Error response headers:", error.response.headers);
+
+      if (responseData.success) {
+        dispatch(
+          setAllCategory(
+            responseData.data.sort((a, b) => a.name.localeCompare(b.name))
+          )
+        );
       }
+    } catch (error) {
+    } finally {
+      dispatch(setLoadingCategory(false));
     }
   };
 
@@ -59,15 +67,24 @@ function App() {
     } finally {
     }
   };
+
+  useEffect(() => {
+    fetchUser();
+    fetchCategory();
+    fetchSubCategory();
+    // fetchCartItem()
+  }, []);
+
   return (
-    <>
+    <GlobalProvider>
       <Header />
-      <main className="min-h-[78vh]  ">
+      <main className="min-h-[78vh]">
         <Outlet />
       </main>
       <Footer />
       <Toaster />
-    </>
+      {location.pathname !== "/checkout" && <CartMobileLink />}
+    </GlobalProvider>
   );
 }
 
