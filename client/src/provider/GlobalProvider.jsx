@@ -100,8 +100,8 @@ const GlobalProvider = ({ children }) => {
   }, [cartItem]);
 
   const handleLogoutOut = () => {
-    localStorage.removeItem("cartItems");
-    localStorage.removeItem("userDetails");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     dispatch(handleAddItemCart([]));
   };
 
