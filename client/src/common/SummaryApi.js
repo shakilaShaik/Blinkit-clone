@@ -24,7 +24,7 @@ const SummaryApi = {
         method: "put"
 
     },
-    refresh_token: {
+    refreshToken: {
         url: "/api/user/refresh-token",
         method: "post"
     },
