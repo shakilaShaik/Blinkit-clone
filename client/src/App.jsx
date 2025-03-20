@@ -77,13 +77,16 @@ function App() {
 
   return (
     <GlobalProvider>
-      <Header />
-      <main className="min-h-[78vh]">
-        <Outlet />
-      </main>
-      <Footer />
-      <Toaster />
-      {/* {location.pathname !== "/checkout" && <CartMobileLink />} */}
+      <>
+        <Header />
+        <main className="min-h-[78vh]">
+          <Outlet />
+        </main>
+        <Footer />
+        <Toaster />
+        {/* {location.pathname !== "/checkout" && <CartMobileLink />} */}
+      </>
+      //{" "}
     </GlobalProvider>
   );
 }
