@@ -15,7 +15,7 @@ const CardProduct = ({ data }) => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log("url is", url);
+
     navigate(url);
   };
 

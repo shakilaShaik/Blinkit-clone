@@ -25,7 +25,6 @@ const Home = () => {
       const url = `/${valideURLConvert(cat)}-${id}/${valideURLConvert(
         subcategory.name
       )}-${subcategory._id}`;
-      console.log(url);
 
       navigate(url);
     } else {

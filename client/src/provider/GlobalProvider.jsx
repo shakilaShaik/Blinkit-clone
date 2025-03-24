@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import { handleAddAddress } from "../store/addressSlice";
 import { setOrder } from "../store/orderSlice";
+import { data } from "react-router-dom";
 
 export const GlobalContext = createContext(null);
 
@@ -30,7 +31,7 @@ const GlobalProvider = ({ children }) => {
 
       if (responseData.success) {
         dispatch(handleAddItemCart(responseData.data));
-        console.log(responseData);
+        console.log("the cart item added  is", responseData.data);
       }
     } catch (error) {
       console.log(error);
@@ -58,6 +59,7 @@ const GlobalProvider = ({ children }) => {
       return error;
     }
   };
+  console.log("the updated cart item is", cartItem);
   const deleteCartItem = async (cartId) => {
     try {
       const response = await Axios({
@@ -125,7 +127,6 @@ const GlobalProvider = ({ children }) => {
         ...SummaryApi.getOrderItems,
       });
       const { data: responseData } = response;
-      console.log("the order data", responseData);
 
       if (responseData.success) {
         dispatch(setOrder(responseData.data));
@@ -133,6 +134,7 @@ const GlobalProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
+    console.log("the order is", responseData.data);
   };
 
   useEffect(() => {

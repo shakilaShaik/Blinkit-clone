@@ -60,8 +60,6 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
   const handleSubmitSubCategory = async (e) => {
     e.preventDefault();
 
-    console.log("Submitting data:", subCategoryData);
-
     try {
       const response = await Axios({
         ...SummaryApi.addSubCategory,

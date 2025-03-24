@@ -14,7 +14,7 @@ const productSlice = createSlice({
     reducers: {
         setAllCategory: (state, action) => {
             state.allCategory = [...action.payload]
-            console.log("all category is", state.allCategory);
+
         },
         setLoadingCategory: (state, action) => {
             state.loadingCategory = action.payload
