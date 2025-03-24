@@ -13,20 +13,25 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleRedirectProductListpage = (id, cat) => {
-    console.log(id, cat);
     const subcategory = subCategoryData.find((sub) => {
       const filterData = sub.category.some((c) => {
-        return c._id == id;
+        return c._id === id;
       });
 
       return filterData ? true : null;
     });
-    const url = `/${valideURLConvert(cat)}-${id}/${valideURLConvert(
-      subcategory.name
-    )}-${subcategory._id}`;
 
-    navigate(url);
-    console.log(url);
+    if (subcategory) {
+      const url = `/${valideURLConvert(cat)}-${id}/${valideURLConvert(
+        subcategory.name
+      )}-${subcategory._id}`;
+      console.log(url);
+
+      navigate(url);
+    } else {
+      const url = `/${valideURLConvert(cat)}-${id}`;
+      navigate(url);
+    }
   };
 
   return (
@@ -50,7 +55,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10  gap-2">
+      <div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2">
         {loadingCategory
           ? new Array(12).fill(null).map((c, index) => {
               return (
@@ -67,7 +72,7 @@ const Home = () => {
               return (
                 <div
                   key={cat._id + "displayCategory"}
-                  className="w-full h-full"
+                  className="w-full h-full cursor-pointer"
                   onClick={() =>
                     handleRedirectProductListpage(cat._id, cat.name)
                   }
@@ -76,6 +81,7 @@ const Home = () => {
                     <img
                       src={cat.image}
                       className="w-full h-full object-scale-down"
+                      alt={cat.name}
                     />
                   </div>
                 </div>

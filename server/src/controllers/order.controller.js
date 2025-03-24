@@ -199,6 +199,9 @@ export async function getOrderDetailsController(request, response) {
             success: true
         })
     } catch (error) {
+        // Log the error with stack trace for debugging
+        console.error("Error fetching order details:", error);
+
         return response.status(500).json({
             message: error.message || error,
             error: true,
