@@ -31,6 +31,7 @@ const AddToCartButton = ({ data }) => {
       });
 
       const { data: responseData } = response;
+      console.log("the added product", responseData);
 
       if (responseData.success) {
         toast.success(responseData.message);
