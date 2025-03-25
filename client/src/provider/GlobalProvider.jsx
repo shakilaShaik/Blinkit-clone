@@ -130,11 +130,11 @@ const GlobalProvider = ({ children }) => {
 
       if (responseData.success) {
         dispatch(setOrder(responseData.data));
+        console.log("the order is", responseData.data);
       }
     } catch (error) {
       console.log(error);
     }
-    console.log("the order is", responseData.data);
   };
 
   useEffect(() => {
