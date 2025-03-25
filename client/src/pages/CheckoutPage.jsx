@@ -7,7 +7,7 @@ import AxiosToastError from "../utils/AxiosToastError";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import toast from "react-hot-toast";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutPage = () => {
@@ -61,7 +61,6 @@ const CheckoutPage = () => {
     try {
       toast.loading("Loading...");
       const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-      console.log("The Stripe public key is", stripePublicKey);
       const stripePromise = await loadStripe(stripePublicKey);
 
       const response = await Axios({
@@ -69,30 +68,23 @@ const CheckoutPage = () => {
         data: {
           list_items: cartItemsList,
           addressId: addressList[selectAddress]?._id,
-          subTotalAmt: totalPrice * 100,
-          totalAmt: totalPrice * 100,
+          subTotalAmt: totalPrice,
+          totalAmt: totalPrice,
         },
       });
 
       const { data: responseData } = response;
-      console.log("Response data from server:", responseData);
 
-      try {
-        const result = await stripePromise.redirectToCheckout({
-          sessionId: responseData.id,
-        });
-        if (result.error) {
-          console.error("Stripe Checkout error:", result.error.message);
-          alert(
-            "An error occurred during the checkout process. Please try again."
-          );
-        }
-      } catch (error) {
-        console.error("Error during Stripe redirection:", error);
+      stripePromise.redirectToCheckout({ sessionId: responseData.id });
+
+      if (fetchCartItem) {
+        fetchCartItem();
+      }
+      if (fetchOrder) {
+        fetchOrder();
       }
     } catch (error) {
       AxiosToastError(error);
-      console.log("Error in handleOnlinePayment:", error);
     }
   };
   return (
@@ -105,9 +97,8 @@ const CheckoutPage = () => {
             {addressList.map((address, index) => {
               return (
                 <label
-                  key={address._id || index}
                   htmlFor={"address" + index}
-                  className={address.status ? undefined : "hidden"}
+                  className={!address.status && "hidden"}
                 >
                   <div className="border rounded p-3 flex gap-3 hover:bg-blue-50">
                     <div>

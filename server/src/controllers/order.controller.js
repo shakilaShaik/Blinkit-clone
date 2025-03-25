@@ -102,6 +102,8 @@ export async function paymentController(request, response) {
 
         const session = await Stripe.checkout.sessions.create(params);
 
+        console.log("Stripe session created:", session); // Log session details
+
         return response.status(200).json(session);
 
     } catch (error) {
