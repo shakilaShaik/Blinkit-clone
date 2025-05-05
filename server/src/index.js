@@ -25,7 +25,7 @@ console.log("Allowed CORS origin:", process.env.FRONTEND_URL);
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(morgan())
+app.use(morgan('combined'))
 app.use(helmet({
     crossOriginResourcePolicy: false
 }))
