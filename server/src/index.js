@@ -50,6 +50,15 @@ app.use("/api/cart", cartRouter)
 app.use("/api/address", addressRouter)
 app.use("/api/order", orderRouter)
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send('Something broke!')
+})
 
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).send("Sorry, can't find that!")
+})
 
 export default app
