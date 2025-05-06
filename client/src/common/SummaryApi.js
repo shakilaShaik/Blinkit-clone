@@ -1,6 +1,6 @@
 
 
-export const baseURL = import.meta.env.VITE_API_URL;
+export const baseURL = "https://blinkit-clone-ct2t.onrender.com";
 console.log(baseURL)
 const SummaryApi = {
     register: {
